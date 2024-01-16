@@ -5,11 +5,15 @@ from django.http import HttpResponse
 from . forms import CreateUserForm, LoginForm
 from django.contrib.auth import authenticate, login as auth_login, logout
 from django.contrib.auth.decorators import login_required
+
+from .models import 
 # Create your views here.
 
+# homepage
 def home(request):
     return render(request, 'home.html')
 
+# register new user
 def register(request):
     form = CreateUserForm()
 
@@ -22,6 +26,7 @@ def register(request):
     context = {'registerform':form}
     return render(request, 'authentication/register.html', context=context)
 
+# login
 def my_login(request):
     form = LoginForm()
 
@@ -41,9 +46,15 @@ def my_login(request):
 
     return render(request, 'authentication/my-login.html', context=context)
 
+# logout
 def user_logout(request):
     logout(request)
+    return redirect("home")
 
 @login_required(login_url="my-login")
+# dashboard to access groups
 def dashboard(request):
     return render(request, 'dashboard.html')
+
+# class UserUpdate(UpdateView):
+#     model = 
