@@ -4,6 +4,7 @@ from django.http import HttpResponse
 
 from . forms import CreateUserForm, LoginForm
 from django.contrib.auth import authenticate, login as auth_login, logout
+from django.contrib.auth.decorators import login_required
 # Create your views here.
 
 def home(request):
@@ -40,5 +41,9 @@ def my_login(request):
 
     return render(request, 'authentication/my-login.html', context=context)
 
+def user_logout(request):
+    logout(request)
+
+@login_required(login_url="my-login")
 def dashboard(request):
     return render(request, 'dashboard.html')
