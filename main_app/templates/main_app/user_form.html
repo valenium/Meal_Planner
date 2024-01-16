@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+<!-- this is where dynamic content starts -->
+{% block content %}
+
+<h1>Edit your account details</h1>
+
+<form method="POST">
+
+    {% csrf_token %}
+    <table>
+        {{form.as_table}}
+    </table>
+
+    <input type="submit" value="Submit" class="btn">
+
+</form>
+<!-- this is where dynamic content ends -->
+{% endblock %}

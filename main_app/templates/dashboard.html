@@ -3,5 +3,18 @@
 
 <h1>Dashboard</h1>
 
+{% if user.groups %}
+<h2>{{user.groups}}</h2>
+
+{% else %}
+<h2>You are not a member of a group</h2>
+<h3>Join an existing group - type in their group code</h3>
+<a href="">Create a new group</a>
+
+{% endif %}
+
+<a href="">Manage Groups</a>
+<a href="{% url 'user_update' user.id %}">Edit Profile</a>
 <a href="{% url 'user-logout' %}">Logout</a>
+<a href="{% url 'user_delete' user.id %}">Delete</a>
 {% endblock %}

@@ -5,8 +5,10 @@ from django.http import HttpResponse
 from . forms import CreateUserForm, LoginForm
 from django.contrib.auth import authenticate, login as auth_login, logout
 from django.contrib.auth.decorators import login_required
+from django.views.generic.edit import CreateView, UpdateView, DeleteView
 
-from .models import 
+
+from .models import CustomUser, CollabGroup, Recipes, Meal
 # Create your views here.
 
 # homepage
@@ -23,8 +25,7 @@ def register(request):
             form.save()
             return redirect("my-login")
     
-    context = {'registerform':form}
-    return render(request, 'authentication/register.html', context=context)
+    return render(request, 'authentication/register.html', {'registerform':form})
 
 # login
 def my_login(request):
@@ -41,20 +42,27 @@ def my_login(request):
             if user is not None:
                 auth_login(request, user)
                 return redirect("dashboard")
-        
-    context = {'loginform':form}
 
-    return render(request, 'authentication/my-login.html', context=context)
+    return render(request, 'authentication/my-login.html', {'loginform':form})
 
 # logout
 def user_logout(request):
     logout(request)
     return redirect("home")
 
-@login_required(login_url="my-login")
 # dashboard to access groups
+@login_required(login_url="my-login")
 def dashboard(request):
-    return render(request, 'dashboard.html')
+    user = request.user
+    print(user.first_name)
+    print(user.groups)
+    # user_data = CustomUser.objects.filter(user=request.id)
+    return render(request, 'dashboard.html', { 'user': user })
 
-# class UserUpdate(UpdateView):
-#     model = 
+class UserUpdate(UpdateView):
+    model = CustomUser
+    fields = ['first_name', 'last_name']
+
+class UserDelete(DeleteView):
+    model = CustomUser
+    success_url = '/'
