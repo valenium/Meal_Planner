@@ -5,13 +5,11 @@
 
 <h2>Week of: {{ week_days.0|date:"M d" }} - {{ week_days.6|date:"M d" }}</h2>
 <div>
-  <!-- Navigation for Previous and Next Week -->
   <a href="">Previous Week</a>
   <a href="">Next Week</a>
 </div>
 
 <div class="meal-planner-container">
-  <!-- Weekly Calendar View -->
   <div class="calendar-week-view">
     <table>
       <thead>
@@ -23,7 +21,7 @@
         </tr>
       </thead>
       <tbody>
-        <!-- Breakfast row -->
+
         <tr>
             <td class="meal-type">Breakfast</td>
             {% for day in week_days %}
@@ -38,7 +36,7 @@
                 </td>
             {% endfor %}
         </tr>
-        <!-- Lunch row -->
+
         <tr>
             <td class="meal-type">Lunch</td>
             {% for day in week_days %}
@@ -53,7 +51,7 @@
                 </td>
             {% endfor %}
         </tr>
-        <!-- Dinner row -->
+
         <tr>
             <td class="meal-type">Dinner</td>
             {% for day in week_days %}
@@ -93,7 +91,7 @@
 <div id="meal-modal" style="display: none">
   <form method="POST" action="">
     {% csrf_token %}
-    <!-- The form fields -->
+
     {{ meal_form.as_p }}
     <input type="submit" value="Assign Meal" />
   </form>
