@@ -1,10 +1,17 @@
-{% extends 'base.html' %}
-{% block content %}
+{% extends 'base.html' %} {% block content %}
 
 <h1>Dashboard</h1>
 
-{% if user.groups %}
-<h2>{{user.groups}}</h2>
+{% if user.collab_groups %}
+
+{% for group in user.collab_groups.all %}
+<div>
+    <h3>{{group.name}}</h3>
+    <a href="">Meal plan</a>
+    <a href="">Manage group</a>
+    <a href="">Group recipes</a>
+</div>
+{% endfor %}
 
 {% else %}
 <h2>You are not a member of a group</h2>
@@ -16,5 +23,4 @@
 <a href="">Manage Groups</a>
 <a href="{% url 'user_update' user.id %}">Edit Profile</a>
 <a href="{% url 'user-logout' %}">Logout</a>
-<a href="{% url 'user_delete' user.id %}">Delete</a>
 {% endblock %}

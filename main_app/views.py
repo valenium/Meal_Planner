@@ -25,7 +25,7 @@ def register(request):
             form.save()
             return redirect("my-login")
     
-    return render(request, 'authentication/register.html', {'registerform':form})
+    return render(request, 'authentication/register.html', { 'registerform': form })
 
 # login
 def my_login(request):
@@ -55,14 +55,49 @@ def user_logout(request):
 def dashboard(request):
     user = request.user
     print(user.first_name)
-    print(user.groups)
+    # print(user.collab_group)
     # user_data = CustomUser.objects.filter(user=request.id)
     return render(request, 'dashboard.html', { 'user': user })
 
+# group detail
+def groups_detail(request, collabgroup_id):
+    group = CollabGroup.objects.get(id=collabgroup_id)
+    return render(request, 'group/detail.html', { 'group': group })
+
+# Recipes index
+# def recipe_index(request):
+    
+# User edit
 class UserUpdate(UpdateView):
     model = CustomUser
     fields = ['first_name', 'last_name']
 
+# User delete
 class UserDelete(DeleteView):
     model = CustomUser
     success_url = '/'
+
+# Group create
+class GroupCreate(CreateView):
+    model = CollabGroup
+    fields = '__all__'
+
+# Group delete
+class GroupDelete(DeleteView):
+    model = CollabGroup
+    success_url = '/dashboard'
+
+# Recipe edit
+class RecipeUpdate(UpdateView):
+    model = Recipes
+    fields = ['title', 'url', 'ingredients', 'instructions']
+
+# Recipe create
+class RecipeCreate(CreateView):
+    model = Recipes
+    fields = '__all__'
+
+# Recipe delete
+class RecipeDelete(DeleteView):
+    model = Recipes
+    success_url = '/groups/recipes'

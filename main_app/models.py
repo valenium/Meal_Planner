@@ -2,6 +2,7 @@ from django.db import models
 
 from django.contrib.auth.models import AbstractUser, BaseUserManager
 from django.utils.translation import gettext_lazy as _
+from django.urls import reverse
 
 MEAL_TYPE = (
     ('B', 'Breakfast'),
@@ -36,24 +37,27 @@ class CustomUser(AbstractUser):
     email = models.EmailField(help_text='email address', unique=True, error_messages={'unique': 'A user with that email already exists.'})
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = ['first_name', 'last_name']
-    groups = models.ManyToManyField('CollabGroup')
+    collab_groups = models.ManyToManyField('CollabGroup', related_name='custom_users', blank=True)
 
     def __str__(self):
         return f"{self.first_name} {self.last_name} - {self.email}"
     
 class CollabGroup(models.Model):
     name = models.CharField(max_length=100)
-    members = models.ManyToManyField(CustomUser)
+    members = members = models.ManyToManyField(CustomUser, related_name='group_member', blank=True)
     REQUIRED_FIELDS = ['name']
 
     def __str__(self):
         return self.name
     
+    def get_absolute_url(self):
+        return reverse('group_detail', kwargs={'collabgroup_id': self.id})
+
 class Recipes(models.Model):
     title = models.CharField(max_length=150)
     url = models.URLField(max_length=200)
-    ingredients = models.JSONField(default=list)
-    instructions = models.JSONField(default=list)
+    ingredients = models.TextField()
+    instructions = models.TextField()
     collab_group = models.ForeignKey(CollabGroup, on_delete=models.CASCADE)
     REQUIRED_FIELDS = ['title', 'ingredients', 'instructions']
 
