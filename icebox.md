@@ -1,33 +1,32 @@
-MEAL_TYPE = (
-    ('B', 'Breakfast'),
-    ('L', 'Lunch'),
-    ('D', 'Dinner')
-)
-
-class CollabGroup(models.Model):
-    name = models.CharField(max_length=100)
-    members = models.ManyToManyField(CustomUser)
-    REQUIRED_FIELDS = ['name']
-
-    def __str__(self):
-        return self.name
-    
-class Recipes(models.Model):
-    title = models.CharField(max_length=150)
-    url = models.URLField(max_length=200)
-    ingredients = models.JSONField(default=list)
-    instructions = models.JSONField(default=list)
-    collab_group = models.ForeignKey(CollabGroup, on_delete=models.CASCADE)
-    REQUIRED_FIELDS = ['title', 'ingredients', 'instructions']
-
-    def __str__(self):
-        return self.title    
-
-class Meal(models.Model):
-    type = models.CharField(max_length=1, choices=MEAL_TYPE, default=MEAL_TYPE[0][0])
-    date = models.DateField()
-    recipe = models.ForeignKey(Recipes, on_delete=models.PROTECT)
-    collab_group = models.ForeignKey(CollabGroup, on_delete=models.CASCADE)
-
-    def __str__(self):
-        return f"{self.type[1]} {self.date}"
+<tbody>
+        <tr>
+            <td>Breakfast</td>
+          <td>{{ meals_by_day.0.breakfast.recipe }}</td>
+          <td>{{ meals_by_day.1.breakfast.recipe }}</td>
+          <td>{{ meals_by_day.2.breakfast.recipe }}</td>
+          <td>{{ meals_by_day.3.breakfast.recipe }}</td>
+          <td>{{ meals_by_day.4.breakfast.recipe }}</td>
+          <td>{{ meals_by_day.5.breakfast.recipe }}</td>
+          <td>{{ meals_by_day.6.breakfast.recipe }}</td>
+        </tr>
+        <tr>
+            <td>Lunch</td>
+          <td>{{ meals_by_day.0.lunch.recipe }}</td>
+          <td>{{ meals_by_day.1.lunch.recipe }}</td>
+          <td>{{ meals_by_day.2.lunch.recipe }}</td>
+          <td>{{ meals_by_day.3.lunch.recipe }}</td>
+          <td>{{ meals_by_day.4.lunch.recipe }}</td>
+          <td>{{ meals_by_day.5.lunch.recipe }}</td>
+          <td>{{ meals_by_day.6.lunch.recipe }}</td>
+        </tr>
+        <tr>
+            <td>Dinner</td>
+          <td>{{ meals_by_day.0.dinner.recipe }}</td>
+          <td>{{ meals_by_day.1.dinner.recipe }}</td>
+          <td>{{ meals_by_day.2.dinner.recipe }}</td>
+          <td>{{ meals_by_day.3.dinner.recipe }}</td>
+          <td>{{ meals_by_day.4.dinner.recipe }}</td>
+          <td>{{ meals_by_day.5.dinner.recipe }}</td>
+          <td>{{ meals_by_day.6.dinner.recipe }}</td>
+        </tr>
+      </tbody>

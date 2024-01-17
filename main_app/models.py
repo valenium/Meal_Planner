@@ -71,4 +71,4 @@ class Meal(models.Model):
     collab_group = models.ForeignKey(CollabGroup, on_delete=models.CASCADE)
 
     def __str__(self):
-        return f"{self.type[1]} {self.date}"
+        return f"{self.type} {self.date}"

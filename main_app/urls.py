@@ -27,5 +27,6 @@ urlpatterns = [
     # path('groups/recipes/update', views.recipes_update, name='recipes_update'),
 
     # Meal routes
-    
+    path('groups/meals/', views.meal_calendar, name='meal_calendar'),
+
 ]

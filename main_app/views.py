@@ -7,6 +7,9 @@ from django.contrib.auth import authenticate, login as auth_login, logout
 from django.contrib.auth.decorators import login_required
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 
+import calendar
+from datetime import datetime, timedelta
+from collections import defaultdict
 
 from .models import CustomUser, CollabGroup, Recipes, Meal
 # Create your views here.
@@ -67,6 +70,43 @@ def groups_detail(request, collabgroup_id):
 # Recipes index
 # def recipe_index(request):
     
+# Meal calendar
+def meal_calendar(request, year=datetime.now().year, week=None):
+    if week is None:
+        week = datetime.now().isocalendar()[1]
+
+    week = int(week)
+    year = int(year)
+    first_day_of_week = datetime.strptime(f'{year}-W{week - 1}-1', "%Y-W%W-%w").date()
+    # Calculate the last day of the week
+    last_day_of_week = first_day_of_week + timedelta(days=6)
+
+    prev_week = first_day_of_week - timedelta(weeks=1)
+    next_week = first_day_of_week + timedelta(weeks=1)
+
+    meals_for_week = Meal.objects.filter(
+        date__range=[first_day_of_week, last_day_of_week]
+    ).select_related('recipe').order_by('date', 'type')
+
+    meals_by_day_type = defaultdict(lambda: {'B': None, 'L': None, 'D': None})
+    for meal in meals_for_week:
+        weekday = meal.date.weekday()
+        meals_by_day_type[weekday][meal.type] = meal
+
+    week_days = [first_day_of_week + timedelta(days=i) for i in range(7)]
+
+    context = {
+        'meals_by_day_type': dict(meals_by_day_type),  # Convert back to a regular dictionary
+        'week_days': week_days,
+        'current_week': week,
+        'current_year': year,
+        'prev_week': prev_week.isocalendar()[1],
+        'prev_year': prev_week.year,
+        'next_week': next_week.isocalendar()[1],
+        'next_year': next_week.year,
+    }
+    return render(request, 'group/meal/index.html', context)
+
 # User edit
 class UserUpdate(UpdateView):
     model = CustomUser

@@ -1,0 +1,102 @@
+{% extends 'base.html' %}
+
+{% block content %}
+{% load custom_tags %}
+
+<h2>Week of: {{ week_days.0|date:"M d" }} - {{ week_days.6|date:"M d" }}</h2>
+<div>
+  <!-- Navigation for Previous and Next Week -->
+  <a href="">Previous Week</a>
+  <a href="">Next Week</a>
+</div>
+
+<div class="meal-planner-container">
+  <!-- Weekly Calendar View -->
+  <div class="calendar-week-view">
+    <table>
+      <thead>
+        <tr>
+            <th></th>
+            {% for day in week_days %}
+            <th class="day-name">{{ day|date:"l" }}<br>{{ day|date:"M d" }}</th>
+            {% endfor %}
+        </tr>
+      </thead>
+      <tbody>
+        <!-- Breakfast row -->
+        <tr>
+            <td class="meal-type">Breakfast</td>
+            {% for day in week_days %}
+                <td>
+                    {% with meal=meals_by_day_type.day.weekday.B %}
+                            {% if meal %}
+                                {{ meal.recipe.title }}
+                            {% else %}
+                                No breakfast assigned
+                            {% endif %}
+                    {% endwith %}
+                </td>
+            {% endfor %}
+        </tr>
+        <!-- Lunch row -->
+        <tr>
+            <td class="meal-type">Lunch</td>
+            {% for day in week_days %}
+                <td>
+                    {% with meal=meals_by_day_type.day.weekday.L %}
+                            {% if meal %}
+                                {{ meal.recipe.title }}
+                            {% else %}
+                                No lunch assigned
+                            {% endif %}
+                    {% endwith %}
+                </td>
+            {% endfor %}
+        </tr>
+        <!-- Dinner row -->
+        <tr>
+            <td class="meal-type">Dinner</td>
+            {% for day in week_days %}
+                <td>
+                    {% with meal=meals_by_day_type.day.weekday.D %}
+                            {% if meal %}
+                                {{ meal.recipe.title }}
+                            {% else %}
+                                No dinner assigned
+                            {% endif %}
+                    {% endwith %}
+                </td>
+            {% endfor %}
+        </tr>
+    </tbody>
+    </table>
+  </div>
+
+  <div class="recipe-detail-view">
+    <h2>Selected Meal: Banana Oatmeal Pancakes</h2>
+    <p><strong>Date:</strong> Weds, Jan 17</p>
+    <p><strong>Ingredients:</strong></p>
+    <ul>
+      <li>2 bananas</li>
+      <li>2 eggs</li>
+    </ul>
+    <p><strong>Instructions:</strong></p>
+    <ol>
+      <li>
+        Add all of the ingredients to a blender and blend on high until
+        completely smooth, about 30 seconds.
+      </li>
+    </ol>
+  </div>
+</div>
+
+<div id="meal-modal" style="display: none">
+  <form method="POST" action="">
+    {% csrf_token %}
+    <!-- The form fields -->
+    {{ meal_form.as_p }}
+    <input type="submit" value="Assign Meal" />
+  </form>
+</div>
+
+{% endblock %}

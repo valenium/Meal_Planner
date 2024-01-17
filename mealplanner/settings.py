@@ -131,3 +131,6 @@ CORS_ORIGIN_WHITELIST = [
 ]
 
 AUTH_USER_MODEL = 'main_app.CustomUser'
+
+# Django deployment
+# import django_on_heroku
