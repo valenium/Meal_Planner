@@ -5,8 +5,8 @@
 
 <h2>Week of: {{ week_days.0|date:"M d" }} - {{ week_days.6|date:"M d" }}</h2>
 <div>
-  <a href="">Previous Week</a>
-  <a href="">Next Week</a>
+    <a href="{% url 'meal_calendar' collab_group.id current_year prev_week %}">Previous Week</a>
+    <a href="{% url 'meal_calendar' collab_group.id current_year next_week %}">Next Week</a>
 </div>
 
 <div class="meal-planner-container">

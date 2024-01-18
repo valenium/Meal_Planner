@@ -27,6 +27,7 @@ urlpatterns = [
     # path('groups/recipes/update', views.recipes_update, name='recipes_update'),
 
     # Meal routes
-    path('groups/meals/', views.meal_calendar, name='meal_calendar'),
+    path('groups/<int:collabgroup_id>/meals/', views.meal_calendar, name='meal_calendar'),
+    path('groups/<int:collabgroup_id>/meals/<int:year>/<int:week>/', views.meal_calendar, name='meal_calendar'),
 
 ]

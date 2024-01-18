@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 
 from django.http import HttpResponse
 
@@ -71,21 +71,23 @@ def groups_detail(request, collabgroup_id):
 # def recipe_index(request):
     
 # Meal calendar
-def meal_calendar(request, year=datetime.now().year, week=None):
+def meal_calendar(request, collabgroup_id, year=datetime.now().year, week=None):
     if week is None:
         week = datetime.now().isocalendar()[1]
+
+    collab_group = get_object_or_404(CollabGroup, pk=collabgroup_id)
 
     week = int(week)
     year = int(year)
     first_day_of_week = datetime.strptime(f'{year}-W{week - 1}-1', "%Y-W%W-%w").date()
-    # Calculate the last day of the week
     last_day_of_week = first_day_of_week + timedelta(days=6)
 
     prev_week = first_day_of_week - timedelta(weeks=1)
     next_week = first_day_of_week + timedelta(weeks=1)
 
     meals_for_week = Meal.objects.filter(
-        date__range=[first_day_of_week, last_day_of_week]
+        date__range=[first_day_of_week, last_day_of_week],
+        collab_group=collab_group
     ).select_related('recipe').order_by('date', 'type')
 
     meals_by_day_type = defaultdict(lambda: {'B': None, 'L': None, 'D': None})
@@ -96,7 +98,8 @@ def meal_calendar(request, year=datetime.now().year, week=None):
     week_days = [first_day_of_week + timedelta(days=i) for i in range(7)]
 
     context = {
-        'meals_by_day_type': dict(meals_by_day_type),  # Convert back to a regular dictionary
+        'collab_group': collab_group,
+        'meals_by_day_type': dict(meals_by_day_type),
         'week_days': week_days,
         'current_week': week,
         'current_year': year,

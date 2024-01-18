@@ -4,4 +4,11 @@
 
 <h1>{{ group.name }}</h1>
 
+<h3>Members</h3>
+<ul>
+    {% for member in group.members.all %}
+    <li>{{ member }}</li>
+    {% endfor %}
+</ul>
+
 {% endblock %}

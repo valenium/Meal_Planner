@@ -44,7 +44,7 @@ class CustomUser(AbstractUser):
     
 class CollabGroup(models.Model):
     name = models.CharField(max_length=100)
-    members = members = models.ManyToManyField(CustomUser, related_name='group_member', blank=True)
+    members = models.ManyToManyField(CustomUser, related_name='group_member', blank=True)
     REQUIRED_FIELDS = ['name']
 
     def __str__(self):
