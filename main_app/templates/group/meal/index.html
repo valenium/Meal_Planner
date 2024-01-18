@@ -5,8 +5,8 @@
 
 <h2>Week of: {{ week_days.0|date:"M d" }} - {{ week_days.6|date:"M d" }}</h2>
 <div>
-    <a href="{% url 'meal_calendar' collab_group.id current_year prev_week %}">Previous Week</a>
-    <a href="{% url 'meal_calendar' collab_group.id current_year next_week %}">Next Week</a>
+    <a href="{% url 'meal_calendar_with_date' collab_group.id prev_year prev_week %}">Previous Week</a>
+    <a href="{% url 'meal_calendar_with_date' collab_group.id next_year next_week %}">Next Week</a>
 </div>
 
 <div class="meal-planner-container">
@@ -26,13 +26,15 @@
             <td class="meal-type">Breakfast</td>
             {% for day in week_days %}
                 <td>
-                    {% with meal=meals_by_day_type.day.weekday.B %}
-                            {% if meal %}
-                                {{ meal.recipe.title }}
-                            {% else %}
-                                No breakfast assigned
-                            {% endif %}
-                    {% endwith %}
+                    {% with meals=meals_by_day_type|get_item:day.weekday %}
+                        {% with meal=meals.B %}
+                {% if meal %}
+                    {{ meal.recipe.title }}
+                {% else %}
+                    No breakfast assigned
+                {% endif %}
+            {% endwith %}
+        {% endwith %}
                 </td>
             {% endfor %}
         </tr>
@@ -41,13 +43,15 @@
             <td class="meal-type">Lunch</td>
             {% for day in week_days %}
                 <td>
-                    {% with meal=meals_by_day_type.day.weekday.L %}
-                            {% if meal %}
-                                {{ meal.recipe.title }}
-                            {% else %}
-                                No lunch assigned
-                            {% endif %}
-                    {% endwith %}
+                    {% with meals=meals_by_day_type|get_item:day.weekday %}
+            {% with meal=meals.L %}
+                {% if meal %}
+                    {{ meal.recipe.title }}
+                {% else %}
+                    No lunch assigned
+                {% endif %}
+            {% endwith %}
+        {% endwith %}
                 </td>
             {% endfor %}
         </tr>
@@ -56,13 +60,15 @@
             <td class="meal-type">Dinner</td>
             {% for day in week_days %}
                 <td>
-                    {% with meal=meals_by_day_type.day.weekday.D %}
-                            {% if meal %}
-                                {{ meal.recipe.title }}
-                            {% else %}
-                                No dinner assigned
-                            {% endif %}
-                    {% endwith %}
+                    {% with meals=meals_by_day_type|get_item:day.weekday %}
+            {% with meal=meals.D %}
+                {% if meal %}
+                    {{ meal.recipe.title }}
+                {% else %}
+                    No dinner assigned
+                {% endif %}
+            {% endwith %}
+        {% endwith %}
                 </td>
             {% endfor %}
         </tr>

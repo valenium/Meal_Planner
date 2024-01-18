@@ -11,4 +11,7 @@
     {% endfor %}
 </ul>
 
+<a href="{% url 'group_update' group.id %}">Edit Group</a>
+<a href="{% url 'group_delete' group.id %}">Delete Group</a>
+
 {% endblock %}

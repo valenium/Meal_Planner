@@ -10,7 +10,7 @@
     <form action="" method="POST">
         {% csrf_token %}
         <input type="submit" value="Yes, delete my group" class="btn">
-        <a href="{% url 'dashboard' %}">Cancel</a>
+        <a href="{% url 'group_detail' group.id %}">Cancel</a>
     </form>
 
 {% endblock %}

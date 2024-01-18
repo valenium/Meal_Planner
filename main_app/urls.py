@@ -17,17 +17,17 @@ urlpatterns = [
     # Group routes
     path('groups/<int:collabgroup_id>/', views.groups_detail, name='group_detail'),
     path('groups/create/', views.GroupCreate.as_view(), name='group_create'),
-    # path('groups/update/', views.GroupUpdate.as_view(), name='group_update'),
-    path('groups/delete/', views.GroupDelete.as_view(), name='group_delete'),
+    path('groups/<int:pk>/update/', views.GroupUpdate.as_view(), name='group_update'),
+    path('groups/<int:pk>/delete/', views.GroupDelete.as_view(), name='group_delete'),
 
     # Recipe routes
-    # path('groups/recipes/', views.recipes_index, name='recipes_index'),
+    path('groups/recipes/', views.recipes_index, name='recipes_index'),
     # path('groups/recipes/<int:recipe_id>/', views.recipes_detail, name='recipes_detail'),
     # path('groups/recipes/create', views.recipes_create, name='recipes_create'),
     # path('groups/recipes/update', views.recipes_update, name='recipes_update'),
 
     # Meal routes
     path('groups/<int:collabgroup_id>/meals/', views.meal_calendar, name='meal_calendar'),
-    path('groups/<int:collabgroup_id>/meals/<int:year>/<int:week>/', views.meal_calendar, name='meal_calendar'),
+    path('groups/<int:collabgroup_id>/meals/<int:year>/<int:week>/', views.meal_calendar, name='meal_calendar_with_date'),
 
 ]
