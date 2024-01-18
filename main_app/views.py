@@ -68,7 +68,16 @@ def groups_detail(request, collabgroup_id):
     return render(request, 'group/detail.html', { 'group': group })
 
 # Recipes index
-# def recipe_index(request):
+def recipes_index(request, collabgroup_id):
+    collab_group = get_object_or_404(CollabGroup, pk=collabgroup_id)
+    recipes = Recipes.objects.filter(collab_group=collab_group).order_by('title')
+    return render(request, 'group/recipe/index.html', { 'collab_group': collab_group, 'recipes': recipes})
+
+def recipes_detail(request, collabgroup_id, recipe_id):
+    recipe = get_object_or_404(Recipes, pk=recipe_id, collab_group_id=collabgroup_id)
+    return render(request, 'group/recipe/detail.html', { 'recipe': recipe})
+
+# def recipe_detail(request, collabgroup_id,)
     
 # Meal calendar
 def meal_calendar(request, collabgroup_id, year=datetime.now().year, week=None):
@@ -156,9 +165,14 @@ class RecipeUpdate(UpdateView):
 # Recipe create
 class RecipeCreate(CreateView):
     model = Recipes
-    fields = '__all__'
+    fields = ['title', 'url', 'ingredients', 'instructions']
+
+    def form_valid(self, form):
+        collab_group = get_object_or_404(CollabGroup, pk=self.kwargs['collabgroup_id'])
+        form.instance.collab_group = collab_group
+        return super().form_valid(form)
 
 # Recipe delete
 class RecipeDelete(DeleteView):
     model = Recipes
-    success_url = '/groups/recipes'
+    success_url = '/groups/<int:collabgroup_id>/recipes'

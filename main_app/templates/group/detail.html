@@ -4,6 +4,8 @@
 
 <h1>{{ group.name }}</h1>
 
+<a href="{% url 'recipes_index' group.id %}">Group recipes</a>
+
 <h3>Members</h3>
 <ul>
     {% for member in group.members.all %}

@@ -62,7 +62,10 @@ class Recipes(models.Model):
     REQUIRED_FIELDS = ['title', 'ingredients', 'instructions']
 
     def __str__(self):
-        return self.title    
+        return self.title  
+
+    def get_absolute_url(self):
+        return reverse('recipes_detail', kwargs={'recipe_id': self.id})  
 
 class Meal(models.Model):
     type = models.CharField(max_length=1, choices=MEAL_TYPE, default=MEAL_TYPE[0][0])

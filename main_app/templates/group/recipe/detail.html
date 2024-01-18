@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+
+{% block content %}
+{% load custom_tags %}
+
+<h1>{{recipe.title}}</h1>
+
+{% if recipe.url %}
+    <h4><a href="{{recipe.url}}">Original recipe site</a></h4>
+{% else %}
+{% endif %}
+
+<h2>Ingredients</h2>
+<ul>
+    <li>{{recipe.ingredients|ingredient_linebreaks}}</li>
+</ul>
+
+<h2>Instructions</h2>
+<ol>
+    <li>{{recipe.instructions|ingredient_linebreaks}}</li>
+</ol>
+
+<a href="">Edit recipe</a>
+<a href="">Delete recipe</a>
+
+{% endblock %}

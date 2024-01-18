@@ -2,5 +2,15 @@
 
 {% block content %}
 
+<h1>{{collab_group.name}}'s Recipes</h1>
+
+<ul>
+    {% for recipe in recipes %}
+    <li><a href="{% url 'recipes_detail' collabgroup_id=collab_group.id recipe_id=recipe.id %}">{{recipe.title}}</a></li>
+    {% endfor %}
+</ul>
+
+<a href="{% url 'recipes_create' collab_group.id %}">Add a new recipe</a>
+<a href="{% url 'group_detail' collabgroup_id=collab_group.id %}">Back to group details</a>
 
 {% endblock %}
