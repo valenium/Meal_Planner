@@ -16,7 +16,4 @@ class LoginForm(AuthenticationForm):
 class MealForm(forms.ModelForm):
     class Meta:
         model = Meal
-        fields = ['type', 'recipe', 'date']
-        widgets = {
-            'date': forms.DateInput(attrs={'type': 'date'})
-        }
+        fields = ['recipe']

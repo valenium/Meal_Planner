@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect, get_object_or_404
 
 from django.http import HttpResponse
 
-from . forms import CreateUserForm, LoginForm
+from . forms import CreateUserForm, LoginForm, MealForm
 from django.contrib.auth import authenticate, login as auth_login, logout
 from django.contrib.auth.decorators import login_required
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
@@ -77,10 +77,18 @@ def recipes_detail(request, collabgroup_id, recipe_id):
     recipe = get_object_or_404(Recipes, pk=recipe_id, collab_group_id=collabgroup_id)
     return render(request, 'group/recipe/detail.html', { 'recipe': recipe})
 
-# def recipe_detail(request, collabgroup_id,)
+def meal_create(request):
+    form = MealForm()
+
+    if request.method == "POST":
+        form = MealForm(request.POST)
+        form.save()
+
+    return render(request, 'group/meal/index.html', { 'meal_form': form })
     
 # Meal calendar
 def meal_calendar(request, collabgroup_id, year=datetime.now().year, week=None):
+    # Calculating dates
     if week is None:
         week = datetime.now().isocalendar()[1]
         year = datetime.now().isocalendar()[0]
@@ -113,10 +121,13 @@ def meal_calendar(request, collabgroup_id, year=datetime.now().year, week=None):
         meals_by_day_type[weekday][meal.type] = meal
 
     week_days = [first_day_of_week + timedelta(days=i) for i in range(7)]
-    # next_week_start = last_day_of_week + timedelta(days=1)
 
-    # next_week = next_week_start.isocalendar()[1]
-    # next_year = next_week_start.year
+    # New meal form
+    form = MealForm()
+
+    if request.method == "POST":
+        form = MealForm(request.POST)
+        form.save()
 
     context = {
         'collab_group': collab_group,
@@ -127,7 +138,8 @@ def meal_calendar(request, collabgroup_id, year=datetime.now().year, week=None):
         'prev_week': prev_week.isocalendar()[1],
         'prev_year': prev_week.year,
         'next_week': next_week.isocalendar()[1],
-        'next_year': next_week.year
+        'next_year': next_week.year,
+        'meal_form': form
     }
     print(f'{next_week} {next_week.year}')
     return render(request, 'group/meal/index.html', context)
@@ -145,7 +157,12 @@ class UserDelete(DeleteView):
 # Group create
 class GroupCreate(CreateView):
     model = CollabGroup
-    fields = '__all__'
+    fields = 'name'
+
+    def form_valid(request, form):
+        user = request.user
+        form.instance.members = user
+        return super().form_valid(form)
 
 # Group delete
 class GroupDelete(DeleteView):

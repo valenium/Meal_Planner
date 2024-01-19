@@ -1,106 +1,110 @@
 {% extends 'base.html' %}
 
 {% block content %}
-{% load custom_tags %}
 
-<h2>Week of: {{ week_days.0|date:"M d" }} - {{ week_days.6|date:"M d" }}</h2>
-<div>
-    <a href="{% url 'meal_calendar_with_date' collab_group.id prev_year prev_week %}">Previous Week</a>
-    <a href="{% url 'meal_calendar_with_date' collab_group.id next_year next_week %}">Next Week</a>
-</div>
+    {% load custom_tags %}
 
-<div class="meal-planner-container">
-  <div class="calendar-week-view">
-    <table>
-      <thead>
-        <tr>
-            <th></th>
-            {% for day in week_days %}
-            <th class="day-name">{{ day|date:"l" }}<br>{{ day|date:"M d" }}</th>
-            {% endfor %}
-        </tr>
-      </thead>
-      <tbody>
+    <h1>{{collab_group.name}}'s Meal Planner</h1>
+    <a href="{% url 'dashboard' %}">Back to dashboard</a>
 
-        <tr>
-            <td class="meal-type">Breakfast</td>
-            {% for day in week_days %}
-                <td>
-                    {% with meals=meals_by_day_type|get_item:day.weekday %}
-                        {% with meal=meals.B %}
-                {% if meal %}
-                    {{ meal.recipe.title }}
-                {% else %}
-                    No breakfast assigned
-                {% endif %}
+    <h2>Week of: {{ week_days.0|date:"M d" }} - {{ week_days.6|date:"M d" }}</h2>
+    <div>
+        <a href="{% url 'meal_calendar_with_date' collab_group.id prev_year prev_week %}">Previous Week</a>
+        <a href="{% url 'meal_calendar_with_date' collab_group.id next_year next_week %}">Next Week</a>
+    </div>
+
+    <div class="calendar-week-view">
+        <table>
+        <thead>
+            <tr>
+                <th></th>
+                {% for day in week_days %}
+                <th class="day-name">{{ day|date:"l" }}<br>{{ day|date:"M d" }}</th>
+                {% endfor %}
+            </tr>
+        </thead>
+        <tbody>
+
+            <tr>
+                <td class="meal-type">Breakfast</td>
+                {% for day in week_days %}
+                    <td class="meal-slot">
+                        {% with meals=meals_by_day_type|get_item:day.weekday %}
+                            {% with meal=meals.B %}
+                    {% if meal %}
+                        <span class="scheduled-meal" recipe-id="{{ meal.recipe.id }}">{{ meal.recipe.title }}</span>
+                    {% else %}
+                        <span class="no-meal">No meal assigned</span>
+                    {% endif %}
+                {% endwith %}
             {% endwith %}
-        {% endwith %}
-                </td>
-            {% endfor %}
-        </tr>
+                    </td>
+                {% endfor %}
+            </tr>
 
-        <tr>
-            <td class="meal-type">Lunch</td>
-            {% for day in week_days %}
-                <td>
-                    {% with meals=meals_by_day_type|get_item:day.weekday %}
-            {% with meal=meals.L %}
-                {% if meal %}
-                    {{ meal.recipe.title }}
-                {% else %}
-                    No lunch assigned
-                {% endif %}
+            <tr>
+                <td class="meal-type">Lunch</td>
+                {% for day in week_days %}
+                    <td class="meal-slot">
+                        {% with meals=meals_by_day_type|get_item:day.weekday %}
+                {% with meal=meals.L %}
+                    {% if meal %}
+                        <span class="scheduled-meal" recipe-id="{{ meal.recipe.id }}">{{ meal.recipe.title }}</span>
+                    {% else %}
+                        <span class="no-meal">No meal assigned</span>
+                    {% endif %}
+                {% endwith %}
             {% endwith %}
-        {% endwith %}
-                </td>
-            {% endfor %}
-        </tr>
+                    </td>
+                {% endfor %}
+            </tr>
 
-        <tr>
-            <td class="meal-type">Dinner</td>
-            {% for day in week_days %}
-                <td>
-                    {% with meals=meals_by_day_type|get_item:day.weekday %}
-            {% with meal=meals.D %}
-                {% if meal %}
-                    {{ meal.recipe.title }}
-                {% else %}
-                    No dinner assigned
-                {% endif %}
+            <tr>
+                <td class="meal-type">Dinner</td>
+                {% for day in week_days %}
+                    <td class="meal-slot">
+                        {% with meals=meals_by_day_type|get_item:day.weekday %}
+                {% with meal=meals.D %}
+                    {% if meal %}
+                        <span class="scheduled-meal" recipe-id="{{ meal.recipe.id }}">{{ meal.recipe.title }}</span>
+                    {% else %}
+                        <span class="no-meal">No meal assigned</span>
+                    {% endif %}
+                {% endwith %}
             {% endwith %}
-        {% endwith %}
-                </td>
-            {% endfor %}
-        </tr>
-    </tbody>
-    </table>
-  </div>
+                    </td>
+                {% endfor %}
+            </tr>
+        </tbody>
+        </table>
+    </div>
 
-  <div class="recipe-detail-view">
-    <h2>Selected Meal: Banana Oatmeal Pancakes</h2>
-    <p><strong>Date:</strong> Weds, Jan 17</p>
-    <p><strong>Ingredients:</strong></p>
-    <ul>
-      <li>2 bananas</li>
-      <li>2 eggs</li>
-    </ul>
-    <p><strong>Instructions:</strong></p>
-    <ol>
-      <li>
-        Add all of the ingredients to a blender and blend on high until
-        completely smooth, about 30 seconds.
-      </li>
-    </ol>
-  </div>
-</div>
+        <div class="recipe-detail-view">
+            <h3>Meal for {{meal.date}}</h3>
+            <h2>{{meal.recipe.title}}</h2>
+            <h4>Ingredients</h4>
+            <ul>
+                <li>{{meal.recipe.ingredients|ingredient_linebreaks}}</li>
+            </ul>
+            <h4>Instructions</h4>
+            <ol>
+                <li>{{recipe.instructions|ingredient_linebreaks}}</li>
+            </ol>
+            <a href="">Go to recipe</a>
+        </div>
 
-<div id="meal-modal" style="display: none">
-  <form method="POST" action="">
-    {% csrf_token %}
+        <div id="meal-form">
+        <form method="POST">
+            {% csrf_token %}
 
-    {{ meal_form.as_p }}
-    <input type="submit" value="Assign Meal" />
-  </form>
-</div>
+            {{ meal_form.as_p }}
+            <input type="submit" value="Assign Meal" />
+        </form>
+        </div>
+
+        <div id="initial">
+            <h4>Select a meal</h4>
+        </div>
+
 
 {% endblock %}
