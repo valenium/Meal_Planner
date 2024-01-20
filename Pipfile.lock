@@ -141,7 +141,7 @@
                 "sha256:f9b5571d33660d5009a8b3c25dc1db560206e2d2f89d3df1cb32d72c0d117d52"
             ],
             "index": "pypi",
-            "markers": "pytho
+            "markers": "python_version >= '3.7'",
             "version": "==2.9.9"
         },
         "sqlparse": {
