@@ -65,7 +65,7 @@ class Recipes(models.Model):
         return self.title  
 
     def get_absolute_url(self):
-        return reverse('recipes_detail', kwargs={'recipe_id': self.id})  
+        return reverse('recipes_detail', kwargs={'recipe_id': self.id, 'collabgroup_id': self.collab_group.id})  
 
 class Meal(models.Model):
     type = models.CharField(max_length=1, choices=MEAL_TYPE, default=MEAL_TYPE[0][0])

@@ -1,11 +1,14 @@
 from django.shortcuts import render, redirect, get_object_or_404
 
-from django.http import HttpResponse
+from django.http import HttpResponseRedirect
 
-from . forms import CreateUserForm, LoginForm, MealForm
+from . forms import CreateUserForm, LoginForm, MealForm, AddMemberForm
 from django.contrib.auth import authenticate, login as auth_login, logout
 from django.contrib.auth.decorators import login_required
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
+from django.contrib.auth.mixins import LoginRequiredMixin
+from django.forms.widgets import HiddenInput
+
 
 import calendar
 from datetime import datetime, timedelta
@@ -57,15 +60,20 @@ def user_logout(request):
 @login_required(login_url="my-login")
 def dashboard(request):
     user = request.user
-    print(user.first_name)
-    # print(user.collab_group)
-    # user_data = CustomUser.objects.filter(user=request.id)
     return render(request, 'dashboard.html', { 'user': user })
+
+# group index
+def groups_index(request):
+    user = request.user
+    return render(request, 'group/index.html', { 'user': user })
 
 # group detail
 def groups_detail(request, collabgroup_id):
     group = CollabGroup.objects.get(id=collabgroup_id)
-    return render(request, 'group/detail.html', { 'group': group })
+
+    form = AddMemberForm()
+    
+    return render(request, 'group/detail.html', { 'group': group, 'form': form})
 
 # Recipes index
 def recipes_index(request, collabgroup_id):
@@ -75,7 +83,8 @@ def recipes_index(request, collabgroup_id):
 
 def recipes_detail(request, collabgroup_id, recipe_id):
     recipe = get_object_or_404(Recipes, pk=recipe_id, collab_group_id=collabgroup_id)
-    return render(request, 'group/recipe/detail.html', { 'recipe': recipe})
+    print(collabgroup_id)
+    return render(request, 'group/recipe/detail.html', { 'recipe': recipe, 'collabgroup_id': collabgroup_id })
 
 def meal_create(request):
     form = MealForm()
@@ -128,6 +137,7 @@ def meal_calendar(request, collabgroup_id, year=datetime.now().year, week=None):
     if request.method == "POST":
         form = MealForm(request.POST)
         form.save()
+        return HttpResponseRedirect(request.path_info)
 
     context = {
         'collab_group': collab_group,
@@ -155,13 +165,18 @@ class UserDelete(DeleteView):
     success_url = '/'
 
 # Group create
-class GroupCreate(CreateView):
+class GroupCreate(LoginRequiredMixin, CreateView):
     model = CollabGroup
-    fields = 'name'
+    fields = ['name']
 
-    def form_valid(request, form):
-        user = request.user
-        form.instance.members = user
+    def form_valid(self, form):
+        member = self.request.user
+        print(member.id)
+        # form.members.set(member)
+        group = form.save()
+
+        group.members.add(member)
+        member.collab_groups.add(group)
         return super().form_valid(form)
 
 # Group delete

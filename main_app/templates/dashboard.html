@@ -15,11 +15,11 @@
 {% else %}
 <h2>You are not a member of a group</h2>
 <h3>Join an existing group - type in their group code</h3>
-<a href="">Create a new group</a>
+<a href="{% url 'group_create' %}">Create a new group</a>
 
 {% endif %}
 
-<a href="">Manage Groups</a>
+<a href="{% url 'group_index' %}">Manage Groups</a>
 <a href="{% url 'user_update' user.id %}">Edit Profile</a>
 <a href="{% url 'user-logout' %}">Logout</a>
 {% endblock %}

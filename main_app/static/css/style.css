@@ -18,6 +18,14 @@ th {
     font-weight: bold;
 }
 
-.recipe-detail-view, .meal-form, initial {
+.recipe-detail-view {
+    display: none;
+}
+
+.meal-form {
+    display: none;
+}
+
+.initial{
     display: none;
 }

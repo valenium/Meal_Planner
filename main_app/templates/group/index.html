@@ -1,0 +1,21 @@
+{% extends 'base.html' %} {% block content %}
+
+<h1>Manage {{user.first_name}} {{user.last_name}}'s groups</h1>
+
+{% if user.collab_groups %}
+
+{% for group in user.collab_groups.all %}
+<a href="{% url 'group_create' %}">Create a new group</a>
+<div>
+    <h3>{{group.name}}</h3>
+    <a href="">Leave group</a>
+</div>
+{% endfor %}
+
+{% else %}
+<h2>You are not a member of a group</h2>
+<h3>Join an existing group - type in their group code</h3>
+<a href="">Create a new group</a>
+
+{% endif %}
+{% endblock %}

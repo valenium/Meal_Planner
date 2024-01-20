@@ -2,7 +2,8 @@
 
 {% block content %}
 {% load custom_tags %}
-
+<a href="{% url 'recipes_index' collabgroup_id %}">All Recipes</a>
+<a href="{% url 'meal_calendar' collabgroup_id %}">Meal Plan</a>
 <h1>{{recipe.title}}</h1>
 
 {% if recipe.url %}
