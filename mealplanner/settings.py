@@ -134,4 +134,4 @@ AUTH_USER_MODEL = 'main_app.CustomUser'
 
 # Django deployment on Heroku
 import django_on_heroku
-django_on_heroku.setting(locals())
+django_on_heroku.settings(locals())
