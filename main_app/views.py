@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect, get_object_or_404
 
 from django.http import HttpResponseRedirect
 
-from . forms import CreateUserForm, LoginForm, MealForm, AddMemberForm
+from . forms import CreateUserForm, LoginForm, MealForm, AddMemberForm, AddGroupForm
 from django.contrib.auth import authenticate, login as auth_login, logout
 from django.contrib.auth.decorators import login_required
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
@@ -60,12 +60,46 @@ def user_logout(request):
 @login_required(login_url="my-login")
 def dashboard(request):
     user = request.user
-    return render(request, 'dashboard.html', { 'user': user })
+
+    if request.method == 'POST':
+        form = AddGroupForm(request.POST)
+        if form.is_valid():
+            group_id = form.cleaned_data['group_id']
+            try:
+                group = CollabGroup.objects.get(id=group_id)
+                user.collab_groups.add(group)
+                group.members.add(user)
+
+                return redirect('/dashboard')
+            
+            except CollabGroup.DoesNotExist:
+                form.add_error('group_id', 'This group does not exist.')
+    else:
+        form = AddGroupForm()
+    
+    return render(request, 'dashboard.html', { 'user': user, 'form': form })
 
 # group index
 def groups_index(request):
     user = request.user
-    return render(request, 'group/index.html', { 'user': user })
+
+    if request.method == 'POST':
+        form = AddGroupForm(request.POST)
+        if form.is_valid():
+            group_id = form.cleaned_data['group_id']
+            try:
+                group = CollabGroup.objects.get(id=group_id)
+                user.collab_groups.add(group)
+                group.members.add(user)
+
+                return redirect('/dashboard')
+            
+            except CollabGroup.DoesNotExist:
+                form.add_error('group_id', 'This group does not exist.')
+    else:
+        form = AddGroupForm()
+
+    return render(request, 'group/index.html', { 'user': user, 'form': form })
 
 # group detail
 def groups_detail(request, collabgroup_id):

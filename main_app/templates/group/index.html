@@ -5,12 +5,19 @@
 {% if user.collab_groups %}
 
 {% for group in user.collab_groups.all %}
-<a href="{% url 'group_create' %}">Create a new group</a>
 <div>
     <h3>{{group.name}}</h3>
     <a href="">Leave group</a>
 </div>
 {% endfor %}
+
+<h4><a href="{% url 'group_create' %}">Create a new group</a></h4>
+<h4>Join an existing group</h4>
+<form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Add Group</button>
+</form>
 
 {% else %}
 <h2>You are not a member of a group</h2>

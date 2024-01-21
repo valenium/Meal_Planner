@@ -31,5 +31,7 @@ urlpatterns = [
     # Meal routes
     path('groups/<int:collabgroup_id>/meals/', views.meal_calendar, name='meal_calendar'),
     path('groups/<int:collabgroup_id>/meals/<int:year>/<int:week>/', views.meal_calendar, name='meal_calendar_with_date'),
+    # path('groups/<int:collabgroup_id>/meals/update', views.MealUpdate.as_view(), name='meal_update'),
+    # path('groups/<int:collabgroup_id>/meals/delete', views.MealDelete.as_view(), name='meal_delete'),
 
 ]

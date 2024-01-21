@@ -25,3 +25,13 @@ class AddMemberForm(forms.ModelForm):
     class Meta:
         model = CollabGroup
         fields = '__all__'
+
+class AddGroupForm(forms.Form):
+    group_id = forms.IntegerField(label='Group ID')
+
+    def clean_group_id(self):
+        group_id = self.cleaned_data['group_id']
+
+        if not CollabGroup.objects.filter(id=group_id).exists():
+            raise forms.ValidationError('Collab Group with this ID does not exist.')
+        return group_id

@@ -161,8 +161,9 @@ a {
   color: #d32f2f !important;
 }
 
-.red.darken-3 {
+input {
   background-color: #c62828 !important;
+  color: white;
 }
 
 .red-text.text-darken-3 {
@@ -370,6 +371,10 @@ th {
   text-align: center;
   width: 8rem;
   height: 8rem;
+}
+
+#clicked-meal-slot {
+  background-color: #fdeaeb !important;
 }
 
 /* .calendar > tr {
