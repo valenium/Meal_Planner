@@ -34,6 +34,7 @@ class CustomUserManager(BaseUserManager):
         return self.create_user(email, password, **extra_fields)
 
 class CustomUser(AbstractUser):
+    username = None
     email = models.EmailField(help_text='email address', unique=True, error_messages={'unique': 'A user with that email already exists.'})
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = ['first_name', 'last_name']
@@ -55,7 +56,7 @@ class CollabGroup(models.Model):
 
 class Recipes(models.Model):
     title = models.CharField(max_length=150)
-    url = models.URLField(max_length=200)
+    url = models.URLField(max_length=200, blank=True)
     ingredients = models.TextField()
     instructions = models.TextField()
     collab_group = models.ForeignKey(CollabGroup, on_delete=models.CASCADE)
@@ -70,7 +71,7 @@ class Recipes(models.Model):
 class Meal(models.Model):
     type = models.CharField(max_length=1, choices=MEAL_TYPE, default=MEAL_TYPE[0][0])
     date = models.DateField()
-    recipe = models.ForeignKey(Recipes, on_delete=models.PROTECT)
+    recipe = models.ForeignKey(Recipes, on_delete=models.SET_NULL, null=True, blank=True)
     collab_group = models.ForeignKey(CollabGroup, on_delete=models.CASCADE)
 
     def __str__(self):

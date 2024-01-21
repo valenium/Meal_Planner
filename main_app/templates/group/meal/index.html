@@ -6,17 +6,58 @@
 
     <script defer src="{% static 'js/meal_planner.js' %}"></script>
 
-    <h1>{{collab_group.name}}'s Meal Planner</h1>
-    <a href="{% url 'dashboard' %}">Back to dashboard</a>
+<div class="calendar-flex">
 
-    <h2>Week of: {{ week_days.0|date:"M d" }} - {{ week_days.6|date:"M d" }}</h2>
-    <div>
-        <a href="{% url 'meal_calendar_with_date' collab_group.id prev_year prev_week %}">Previous Week</a>
-        <a href="{% url 'meal_calendar_with_date' collab_group.id next_year next_week %}">Next Week</a>
+    <div class="data-display">
+
+        <div class="calendar-header">
+            <h1 class="header-text">{{collab_group.name}}'s Meal Planner</h1>
+            <a href="{% url 'dashboard' %}">Back to dashboard</a>
+        </div>
+
+        <div class="recipe-detail"">
+            <h2>{{recipe.title}}</h2>
+            <h4>Ingredients</h4>
+            <ul>
+                <li>{{recipe.ingredients|ingredient_linebreaks}}</li>
+            </ul>
+            <h4>Instructions</h4>
+            <ol>
+                <li>{{recipe.instructions|ingredient_linebreaks}}</li>
+            </ol>
+            <a href="">Go to recipe</a>
+        </div>
+
+        <div class="meal-form">
+            <h3>Schedule a meal</h3> 
+            <h4>Add an existing recipe</h4>
+            <form method="POST">
+                {% csrf_token %}
+
+                {{ meal_form.as_p }}
+                <input type="submit" value="Assign Meal" />
+            </form>
+            <a href="{% url 'recipes_create' collab_group.id %}"><h4>Create a new recipe</h4></a>
+        </div>
+
+        <div class="initial">
+            <h4>Select a meal</h4>
+        </div>
     </div>
 
-    <div class="calendar">
-        <table>
+    <div class="calendar-container">
+
+        <div class="calendar-weeks">
+            <h2>Week of: {{ week_days.0|date:"M d" }} - {{ week_days.6|date:"M d" }}</h2>
+            
+            <div class="calendar-nav">
+                <a href="{% url 'meal_calendar_with_date' collab_group.id prev_year prev_week %}">Previous Week</a>
+                |
+                <a href="{% url 'meal_calendar_with_date' collab_group.id next_year next_week %}">Next Week</a>
+            </div>
+        </div>
+
+        <table class=".calendar">
         <thead>
             <tr>
                 <th></th>
@@ -81,34 +122,7 @@
         </table>
     </div>
 
-        <div class="recipe-detail"">
-            <h2>{{recipe.title}}</h2>
-            <h4>Ingredients</h4>
-            <ul>
-                <li>{{recipe.ingredients|ingredient_linebreaks}}</li>
-            </ul>
-            <h4>Instructions</h4>
-            <ol>
-                <li>{{recipe.instructions|ingredient_linebreaks}}</li>
-            </ol>
-            <a href="">Go to recipe</a>
-        </div>
-
-        <div class="meal-form">
-            <h3>Schedule a meal</h3> 
-            <h4>Add an existing recipe</h4>
-            <form method="POST">
-                {% csrf_token %}
-
-                {{ meal_form.as_p }}
-                <input type="submit" value="Assign Meal" />
-            </form>
-            <a href="{% url 'recipes_create' collab_group.id %}"><h4>Create a new recipe</h4></a>
-        </div>
-
-        <div class="initial">
-            <h4>Select a meal</h4>
-        </div>
+</div>
 
 
 {% endblock %}

@@ -21,7 +21,7 @@
     <li>{{recipe.instructions|ingredient_linebreaks}}</li>
 </ol>
 
-<a href="">Edit recipe</a>
-<a href="">Delete recipe</a>
+<a href="{% url 'recipes_update' collabgroup_id recipe.id %}">Edit recipe</a>
+<a href="{% url 'recipes_delete' collabgroup_id recipe.id %}">Delete recipe</a>
 
 {% endblock %}

@@ -1,12 +1,12 @@
 {% extends 'base.html' %} {% block content %}
 
-<h1>Dashboard</h1>
+<h1 class="header-text">Dashboard</h1>
 
-{% if user.collab_groups %}
+{% if user.collab_groups.all %}
 
 {% for group in user.collab_groups.all %}
 <div>
-    <h3>{{group.name}}</h3>
+    <h3 class="header-text">{{group.name}}</h3>
     <a href="{% url 'meal_calendar' group.id %}">Meal plan</a>
     <a href="{% url 'group_detail' group.id %}">Group Details</a>
 </div>

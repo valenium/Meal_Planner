@@ -1,4 +1,4 @@
-const mealPlanner = document.querySelector('.calendar')
+const mealPlanner = document.querySelector('.calendar-container')
 const mealPlannerEventListener = mealPlanner.addEventListener('click', handleClick)
 
 const form = document.querySelector('.meal-form')
