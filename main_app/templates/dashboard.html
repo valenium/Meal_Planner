@@ -28,10 +28,10 @@
     <h2>You are not a member of a group</h2>
     <h3>Join an existing group</h3>
     <h4>Type in your group's code</h4>
-    <form method="post">
+    <form method="post" class="add-group-form">
         {% csrf_token %}
         {{ form.as_p }}
-        <button type="submit">Add Group</button>
+        <button type="submit" class="btn">Add Group</button>
     </form>
     <h4>or</h4>
     <h4><a class="links" href="{% url 'group_create' %}">Create a new group</a></h4>
