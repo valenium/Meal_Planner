@@ -475,7 +475,7 @@ main {
 .group {
   border: solid darkgrey;
   border-radius: 1rem;
-  grid-template-columns: 88px 88px;
+  grid-template-columns: 96px 96px;
   grid-template-rows: 64px 64px;
   display: grid;
 }
