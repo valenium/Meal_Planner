@@ -8,6 +8,7 @@ from django.contrib.auth.decorators import login_required
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.forms.widgets import HiddenInput
+from django.urls import reverse_lazy
 
 
 import calendar
@@ -241,4 +242,17 @@ class RecipeCreate(CreateView):
 # Recipe delete
 class RecipeDelete(DeleteView):
     model = Recipes
-    success_url = '/groups/<int:collabgroup_id>/recipes'
+
+    def get_success_url(self):
+        group_id = self.kwargs.get('collabgroup_id')
+        return reverse_lazy('recipes_index', kwargs={'collabgroup_id': group_id})
+
+class MealUpdate(UpdateView):
+    model = Meal
+    fields = ['recipe']
+
+class MealDelete(DeleteView):
+    model = Meal
+
+    def get_success_url(self):
+        return self.object.get_absolute_url()

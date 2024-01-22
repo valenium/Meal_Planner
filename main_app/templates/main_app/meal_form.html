@@ -1,13 +1,7 @@
 {% extends 'base.html' %}
 {% block content %}
 
-{% if object %}
-<h1>Edit {{object.title}}</h1>
-
-{% else %}
-<h1>Add Recipe</h1>
-
-{% endif %}
+<h1>Edit {{object.get_type_display}} for {{object.date}}</h1>
 
 <form action="" method="POST">
 

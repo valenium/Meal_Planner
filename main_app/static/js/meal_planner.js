@@ -32,6 +32,7 @@ function handleClick(e){
         let recipe = e.target.attributes['recipe'].value
         let recipeId = e.target.attributes['recipe-id'].value
         let collabGroup = e.target.attributes['collab-group'].value
+        let mealId = e.target.attributes['meal-id'].value
 
         let ingredients = e.target.attributes['ingredients'].value
         let ingredientArray = ingredients.split('\n')
@@ -44,7 +45,7 @@ function handleClick(e){
         let clickedTile = e.target.closest('.meal-slot')
         clickedTile.setAttribute('id', 'clicked-meal-slot')
 
-        displayMealDetails(recipe, ingredientList, instructionList, recipeId, collabGroup)
+        displayMealDetails(recipe, ingredientList, instructionList, recipeId, collabGroup, mealId)
     }
 }
 
@@ -62,7 +63,7 @@ function showMealForm(type, date, group) {
     groupInput.value = group;
 }
 
-function displayMealDetails(recipe, ingredients, instructions, id, group) {
+function displayMealDetails(recipe, ingredients, instructions, id, group, mealId) {
 
     recipeDetails.style.display = 'block';
     form.style.display = 'none'
@@ -71,6 +72,10 @@ function displayMealDetails(recipe, ingredients, instructions, id, group) {
 
     recipeDetails.innerHTML = `<h2>${recipe}</h2>
     <a href="/groups/${group}/recipes/${id}">Recipe detail page</a>
+    |
+    <a href="/groups/${group}/meals/${mealId}/update">Update meal</a>
+    |
+    <a href="/groups/${group}/meals/${mealId}/delete">Delete meal</a>
     <h4>Ingredients</h4>
     <ul>${ingredients}</ul>
     <h4>Instructions</h4>

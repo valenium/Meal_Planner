@@ -71,8 +71,12 @@ class Recipes(models.Model):
 class Meal(models.Model):
     type = models.CharField(max_length=1, choices=MEAL_TYPE, default=MEAL_TYPE[0][0])
     date = models.DateField()
-    recipe = models.ForeignKey(Recipes, on_delete=models.SET_NULL, null=True, blank=True)
+    recipe = models.ForeignKey(Recipes, on_delete=models.CASCADE, null=True, blank=True)
     collab_group = models.ForeignKey(CollabGroup, on_delete=models.CASCADE)
 
     def __str__(self):
-        return f"{self.type} {self.date}"
+        return f"{self.get_type_display()} {self.date}"
+    
+    def get_absolute_url(self):
+        return reverse('meal_calendar', kwargs={'collabgroup_id': self.collab_group.id})
+    

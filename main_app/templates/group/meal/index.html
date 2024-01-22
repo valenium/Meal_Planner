@@ -16,16 +16,6 @@
         </div>
 
         <div class="recipe-detail"">
-            <h2>{{recipe.title}}</h2>
-            <h4>Ingredients</h4>
-            <ul>
-                <li>{{recipe.ingredients|ingredient_linebreaks}}</li>
-            </ul>
-            <h4>Instructions</h4>
-            <ol>
-                <li>{{recipe.instructions|ingredient_linebreaks}}</li>
-            </ol>
-            <a href="">Go to recipe</a>
         </div>
 
         <div class="meal-form">
@@ -41,7 +31,7 @@
         </div>
 
         <div class="initial">
-            <h4>Select a meal</h4>
+            <h2>Select a meal</h2>
         </div>
     </div>
 
@@ -75,7 +65,7 @@
                         {% with meals=meals_by_day_type|get_item:day.weekday %}
                             {% with meal=meals.B %}
                     {% if meal %}
-                    <span class="scheduled-meal" recipe="{{meal.recipe}}" ingredients="{{meal.recipe.ingredients}}" instructions="{{meal.recipe.instructions}}" recipe-id="{{meal.recipe.id}}" collab-group="{{collab_group.id}}">{{ meal.recipe.title }}</span>
+                    <span class="scheduled-meal" recipe="{{meal.recipe}}" ingredients="{{meal.recipe.ingredients}}" instructions="{{meal.recipe.instructions}}" recipe-id="{{meal.recipe.id}}" collab-group="{{collab_group.id}}" meal-id="{{meal.id}}">{{ meal.recipe.title }}</span>
                     {% else %}
                     <span class="no-meal" meal-type="B" meal-date="{{ day|date:'Y-m-d' }}" collab-group="{{collab_group.id}}">No meal assigned</span>
                     {% endif %}
@@ -92,7 +82,7 @@
                         {% with meals=meals_by_day_type|get_item:day.weekday %}
                 {% with meal=meals.L %}
                     {% if meal %}
-                    <span class="scheduled-meal" recipe="{{meal.recipe}}" ingredients="{{meal.recipe.ingredients}}" instructions="{{meal.recipe.instructions}}" recipe-id="{{meal.recipe.id}}" collab-group="{{collab_group.id}}">{{ meal.recipe.title }}</span>
+                    <span class="scheduled-meal" recipe="{{meal.recipe}}" ingredients="{{meal.recipe.ingredients}}" instructions="{{meal.recipe.instructions}}" recipe-id="{{meal.recipe.id}}" collab-group="{{collab_group.id}}" meal-id="{{meal.id}}">{{ meal.recipe.title }}</span>
                     {% else %}
                     <span class="no-meal" meal-type="L" meal-date="{{ day|date:'Y-m-d' }}" collab-group="{{collab_group.id}}">No meal assigned</span>
                     {% endif %}
@@ -109,7 +99,7 @@
                         {% with meals=meals_by_day_type|get_item:day.weekday %}
                 {% with meal=meals.D %}
                     {% if meal %}
-                        <span class="scheduled-meal" recipe="{{meal.recipe}}" ingredients="{{meal.recipe.ingredients}}" instructions="{{meal.recipe.instructions}}" recipe-id="{{meal.recipe.id}}" collab-group="{{collab_group.id}}">{{ meal.recipe.title }}</span>
+                        <span class="scheduled-meal" recipe="{{meal.recipe}}" ingredients="{{meal.recipe.ingredients}}" instructions="{{meal.recipe.instructions}}" recipe-id="{{meal.recipe.id}}" collab-group="{{collab_group.id}}" meal-id="{{meal.id}}">{{ meal.recipe.title }}</span>
                     {% else %}
                         <span class="no-meal" meal-type="D" meal-date="{{ day|date:'Y-m-d' }}" collab-group="{{collab_group.id}}">No meal assigned</span>
                     {% endif %}

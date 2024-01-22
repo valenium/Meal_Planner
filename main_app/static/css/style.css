@@ -161,7 +161,7 @@ a {
   color: #d32f2f !important;
 }
 
-input {
+.btn {
   background-color: #c62828 !important;
   color: white;
 }
@@ -331,10 +331,13 @@ th {
 .calendar-weeks {
   display: flex;
   margin-top: 1rem;
+  justify-content: space-between;
 }
 
 .calendar-nav {
-  margin: auto;
+  margin: auto 0 auto 0;
+  text-align: end;
+  padding-right: 0.5rem;
 }
 
 .calendar-container {
@@ -353,14 +356,18 @@ th {
 
 .calendar-header {
   display: flex;
+  justify-content: space-between;
+  width: 100%;
 }
 
 .calendar-header > a {
-  margin: auto;
+  text-align: end;
+  margin-top: auto;
+  margin-bottom: auto;
 }
 
 .data-display {
-  width: 30vw;
+  width: 36vw;
   padding-left: 0.5rem;
 }
 .meal-type {
