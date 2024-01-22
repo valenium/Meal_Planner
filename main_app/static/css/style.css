@@ -261,15 +261,15 @@ nav {
   display: flex;
   justify-content: space-between;
   width: 100vw;
-  height: 60px;
+  height: 96px;
   background-color: #4c0c0c;
-  padding: 1rem;
   font-size: 36px;
   color: white;
 }
 
 .nav-header {
   display: flex;
+  padding: 1rem 0 1rem 1rem;
 }
 
 nav img {
