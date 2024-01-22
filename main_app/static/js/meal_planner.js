@@ -71,11 +71,11 @@ function displayMealDetails(recipe, ingredients, instructions, id, group, mealId
     console.log('before details')
 
     recipeDetails.innerHTML = `<h2>${recipe}</h2>
-    <a href="/groups/${group}/recipes/${id}">Recipe detail page</a>
+    <a class="links" href="/groups/${group}/recipes/${id}">Recipe detail page</a>
     |
-    <a href="/groups/${group}/meals/${mealId}/update">Update meal</a>
+    <a class="links" href="/groups/${group}/meals/${mealId}/update">Update meal</a>
     |
-    <a href="/groups/${group}/meals/${mealId}/delete">Delete meal</a>
+    <a class="links" href="/groups/${group}/meals/${mealId}/delete">Delete meal</a>
     <h4>Ingredients</h4>
     <ul>${ingredients}</ul>
     <h4>Instructions</h4>

@@ -1,14 +1,33 @@
-{% extends 'base.html' %}
-{% block content %}
+{% load static %}
 
-<h1 class="header-text">Login</h1>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Meal Planner</title>
+    <link rel="icon" type="image/x-icon" href="{% static 'images/logo.png' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}">
+    <script defer src="{% static 'js/meal_planner.js' %}"></script>
+</head>
+<body>
+    <nav>
+        <img src="{% static 'images/inverse-logo.png' %}">
+        <p>Meal Planner</p>
+    </nav>
+    
+<main>
+    <h2><a class="links" href="{% url 'home' %}">Back to homepage</a></h2>
+    <h1 class="header-text">Login</h1>
 
-<form method="POST" autocomplete="off">
-    {% csrf_token %}
+    <form method="POST" autocomplete="off">
+        {% csrf_token %}
+    
+        {{loginform.as_p}}
+    
+        <input type="submit" value="Login" class="btn">
+    </form>
+</main>
 
-    {{loginform.as_p}}
-
-    <input type="submit" value="Login">
-</form>
-
-{% endblock %}
+</body>
+</html>

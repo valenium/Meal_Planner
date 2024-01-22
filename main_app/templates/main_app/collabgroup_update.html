@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<main>
+
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+    
+        {% for user in members %}
+            <div>
+                <p>{{ user.first_name }} {{ user.last_name }} <button type="submit" class="btn" name="remove_user" value="{{ user.id }}">Remove from Group</button></p>
+            </div>
+        {% endfor %}
+    
+        <button type="submit" class="btn">Update Group</button>
+    </form>
+</main>
+
+{% endblock %}
+

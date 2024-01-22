@@ -3,13 +3,22 @@
   font-family: "Roboto", sans-serif;
 }
 
+body {
+  margin: 0;
+}
+
 .materialize-red {
   background-color: #e51c23 !important;
 }
 
-.header-text {
+.links{
   color: #e51c23 !important;
   font-family: "Oswald", sans-serif;
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline ;
 }
 
 .materialize-red.lighten-5 {
@@ -83,7 +92,7 @@
   background-color: #a21318 !important;
 }
 
-.header-text2 {
+.header-text {
   color: #a21318 !important;
 }
 
@@ -91,7 +100,7 @@
   background-color: #8b1014 !important;
 }
 
-a {
+a1 {
   color: #8b1014 !important;
 }
 
@@ -133,7 +142,7 @@ a {
 }
 
 .day-name {
-  color: #e51c23 !important;
+  color: #a21318 !important;
   text-align: center;
 }
 
@@ -330,7 +339,6 @@ th {
 
 .calendar-weeks {
   display: flex;
-  margin-top: 1rem;
   justify-content: space-between;
 }
 
@@ -358,6 +366,7 @@ th {
   display: flex;
   justify-content: space-between;
   width: 100%;
+  flex-wrap: wrap;
 }
 
 .calendar-header > a {
@@ -368,7 +377,7 @@ th {
 
 .data-display {
   width: 36vw;
-  padding-left: 0.5rem;
+  padding-right: 1.5rem;
 }
 .meal-type {
   width: 5rem;
@@ -384,6 +393,101 @@ th {
   background-color: #fdeaeb !important;
 }
 
-/* .calendar > tr {
-    border: 1px solid rgba(0, 0, 0, 0.12);
-  } */
+.home-image {
+  height: 320px;
+  width: 320px;
+}
+
+.homepage-links {
+  color: black;
+  font-size: 48px;
+}
+
+.homepage-body {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  align-items: center;
+  height: 100vh;
+}
+
+.homepage-body > h1 {
+  font-size: 64px;
+}
+
+.homepage-link-container{
+  display: flex;
+  justify-content: space-evenly;
+  width: 60%;
+}
+
+nav {
+  display: flex;
+  justify-content: space-between;
+  width: 100vw;
+  height: 60px;
+  background-color: #4c0c0c;
+  padding: 1rem;
+  font-size: 36px;
+  color: white;
+}
+
+.nav-header {
+  display: flex;
+}
+
+nav img {
+  padding-right: 3rem;
+  height: 60px;
+}
+
+nav p {
+  margin: auto 0 auto 0;
+}
+
+main {
+  padding: 1rem
+}
+
+.nav-link-container {
+  display: flex;
+}
+
+.nav-links{
+  color: white;
+  text-decoration: none;
+  margin: auto 40px auto 0;
+  font-size: 24px;
+}
+
+.dashboard-groups {
+  display: flex;
+  justify-content: space-evenly;
+}
+
+.group {
+  border: solid darkgrey;
+  border-radius: 1rem;
+  grid-template-columns: 88px 88px;
+  grid-template-rows: 64px 64px;
+  display: grid;
+}
+
+.group > h3 {
+  font-size: 32px;
+  text-align: center;
+  grid-column-start: 1;
+  grid-column-end: 3;
+}
+
+.group > a {
+  align-items: center;
+  margin: auto;
+}
+
+.dashboard-header {
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 2rem;
+}

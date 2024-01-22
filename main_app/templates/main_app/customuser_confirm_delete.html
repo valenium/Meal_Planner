@@ -1,16 +1,21 @@
 {% extends 'base.html' %}
 
-{% block content %}
+<main>
 
-<h1>Delete User</h1>
+    {% block content %}
 
-<h2>Are you sure you want to delete your account?</h2>
-<h3>This action cannot be reversed!</h3>
+    <h1>Delete User</h1>
 
-    <form action="" method="POST">
-        {% csrf_token %}
-        <input type="submit" value="Yes, delete my account" class="btn">
-        <a href="{% url 'dashboard' %}">Cancel</a>
-    </form>
+    <h2>Are you sure you want to delete your account?</h2>
+    <h3>This action cannot be reversed!</h3>
+
+        <form action="" method="POST">
+            {% csrf_token %}
+            <input type="submit" value="Yes, delete my account" class="btn">
+            <a class="links" href="{% url 'dashboard' %}">Cancel</a>
+        </form>
+
+</main>
 
 {% endblock %}
+

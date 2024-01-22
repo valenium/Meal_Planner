@@ -2,20 +2,26 @@
 
 {% block content %}
 
-<h1>{{ group.name }}</h1>
+<main>
 
-<a href="{% url 'recipes_index' group.id %}">Group recipes</a>
-<a href="{% url 'meal_calendar' group.id %}">Meal Plan</a>
+    <h1>{{ group.name }}</h1>
+    <h3>Group code: {{group.id}}</h3>
 
-<h3>Members</h3>
-<ul>
-    {% for member in group.members.all %}
-    <li>{{ member }}</li>
-    {% endfor %}
-</ul>
+    <a class="links" href="{% url 'recipes_index' group.id %}">Group recipes</a>
+    |
+    <a class="links" href="{% url 'meal_calendar' group.id %}">Meal Plan</a>
 
+    <h3>Members</h3>
+    <ul>
+        {% for member in group.members.all %}
+        <li>{{ member }}</li>
+        {% endfor %}
+    </ul>
 
-<a href="{% url 'group_update' group.id %}">Edit Group</a>
-<a href="{% url 'group_delete' group.id %}">Delete Group</a>
+    <a class="links" href="{% url 'group_update' group.id %}">Edit Group</a>
+    |
+    <a class="links" href="{% url 'group_delete' group.id %}">Delete Group</a>
+
+</main>
 
 {% endblock %}

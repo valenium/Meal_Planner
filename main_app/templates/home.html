@@ -1,9 +1,30 @@
-{% extends 'base.html' %}
-{% block content %}
+{% load static %}
 
-<h1 class="header-text">Meal Planner</h1>
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Meal Planner</title>
+    <link rel="icon" type="image/x-icon" href="{% static 'images/logo.png' %}">
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="{% static 'css/style.css' %}"
+    />
+    <script defer src="{% static 'js/meal_planner.js' %}"></script>
+  </head>
+  <body class="homepage-body">
+    <img
+      src="{% static 'images/logo.png' %}"
+      alt="meal planner logo"
+      class="home-image"
+    />
+    <h1 class="header-text">Meal Planner</h1>
 
-<a href="{% url 'my-login' %}">Login</a>
-<a href="{% url 'register' %}">Register</a>
-
-{% endblock %}
+    <div class="homepage-link-container">
+        <a class="links" href="{% url 'my-login' %}" class="homepage-links">Login</a>
+        <a class="links" href="{% url 'register' %}" class="homepage-links">Register</a>
+    </div>
+  </body>
+</html>

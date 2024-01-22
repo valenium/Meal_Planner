@@ -1,35 +1,39 @@
 {% extends 'base.html' %}
 {% block content %}
 
-<h1>Edit your account details</h1>
+<main>
 
-<form method="POST">
+  <h1>Edit your account details</h1>
 
-    {% csrf_token %}
-    <table>
-        {{form.as_table}}
-    </table>
+  <form method="POST">
 
-    <input type="submit" value="Submit" class="btn">
+      {% csrf_token %}
+      <table>
+          {{form.as_table}}
+      </table>
 
-</form>
-<form id="id_password_change_form" method="POST" class="form-signin">
-    {% csrf_token %}
+      <input type="submit" value="Submit" class="btn">
+
+  </form>
+  <form id="id_password_change_form" method="POST" class="form-signin">
+      {% csrf_token %}
+      
+      <h1 class="h3 mb-3 font-weight-normal">Change password</h1>
+        <input name="old_password" class="form-control" placeholder="Old password" type="password" id="id_old_password" required="true">
+        <input name="new_password1" class="form-control" placeholder="New password" type="password" id="id_new_password1" required="true">
+        <input name="new_password2" class="form-control" placeholder="Confirm password" type="password" id="id_new_password2" required="true">
     
-    <h1 class="h3 mb-3 font-weight-normal">Change password</h1>
-      <input name="old_password" class="form-control" placeholder="Old password" type="password" id="id_old_password" required="true">
-      <input name="new_password1" class="form-control" placeholder="New password" type="password" id="id_new_password1" required="true">
-      <input name="new_password2" class="form-control" placeholder="Confirm password" type="password" id="id_new_password2" required="true">
-  
-      {% for field in form %}
-        {% for error in field.errors %}
-          <p style="color: red">{{ error }}</p>
+        {% for field in form %}
+          {% for error in field.errors %}
+            <p style="color: red">{{ error }}</p>
+          {% endfor %}
         {% endfor %}
-      {% endfor %}
-    
-      <button id="id_submit_btn" class="btn btn-lg btn-primary btn-block" type="submit">Update</button>  
-</form>
+      
+        <button id="id_submit_btn" class="btn btn-lg btn-primary btn-block" type="submit">Update</button>  
+  </form>
 
-<a href="{% url 'user_delete' user.id %}">Delete</a>
+  <a class="links" href="{% url 'user_delete' user.id %}">Delete</a>
+
+</main>
 
 {% endblock %}

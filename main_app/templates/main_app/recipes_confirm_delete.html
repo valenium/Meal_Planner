@@ -2,15 +2,19 @@
 
 {% block content %}
 
-<h1>Delete Recipe</h1>
+<main>
 
-<h2>Are you sure you want to delete {{recipe.title}}?</h2>
-<h3>This action cannot be reversed and you will lose all your data</h3>
+    <h1>Delete Recipe</h1>
 
-    <form action="" method="POST">
-        {% csrf_token %}
-        <input type="submit" value="Yes, delete this recipe" class="btn">
-        <a href="{% url 'dashboard' %}">Cancel</a>
-    </form>
+    <h2>Are you sure you want to delete {{recipe.title}}?</h2>
+    <h3>This action cannot be reversed and you will lose all your data</h3>
+
+        <form action="" method="POST">
+            {% csrf_token %}
+            <input type="submit" value="Yes, delete this recipe" class="btn">
+            <a class="links" href="{% url 'dashboard' %}">Cancel</a>
+        </form>
+
+</main>
 
 {% endblock %}

@@ -17,6 +17,7 @@ urlpatterns = [
     # Group routes
     path('groups/<int:collabgroup_id>/', views.groups_detail, name='group_detail'),
     path('groups/', views.groups_index, name='group_index'),
+    path('groups/<int:group_id>/leave/', views.group_leave, name='group_leave'),
     path('groups/create/', views.GroupCreate.as_view(), name='group_create'),
     path('groups/<int:pk>/update/', views.GroupUpdate.as_view(), name='group_update'),
     path('groups/<int:pk>/delete/', views.GroupDelete.as_view(), name='group_delete'),

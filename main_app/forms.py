@@ -28,6 +28,8 @@ class AddMemberForm(forms.ModelForm):
 
 class AddGroupForm(forms.Form):
     group_id = forms.IntegerField(label='Group ID')
+    action = forms.CharField(max_length=10, widget=forms.HiddenInput(), initial='add')
+
 
     def clean_group_id(self):
         group_id = self.cleaned_data['group_id']
@@ -35,3 +37,20 @@ class AddGroupForm(forms.Form):
         if not CollabGroup.objects.filter(id=group_id).exists():
             raise forms.ValidationError('Collab Group with this ID does not exist.')
         return group_id
+    
+class RemoveGroupForm(forms.Form):
+    group = forms.ModelMultipleChoiceField(queryset=CollabGroup.objects.none(), widget=forms.CheckboxSelectMultiple, required=False)
+    action = forms.CharField(max_length=10, widget=forms.HiddenInput(), initial='remove')
+
+    def __init__(self, *args, **kwargs):
+        user = kwargs.pop('user', None)
+        super().__init__(*args, **kwargs)
+        if user is not None:
+            print(user.collab_groups.all())
+            self.fields['groups_to_remove'].queryset = user.collab_groups.all()
+
+
+class GroupUpdateForm(forms.ModelForm):
+    class Meta:
+        model = CollabGroup
+        fields = ['name']

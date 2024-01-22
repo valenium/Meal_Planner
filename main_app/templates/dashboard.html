@@ -1,32 +1,45 @@
 {% extends 'base.html' %} {% block content %}
 
-<h1 class="header-text">Dashboard</h1>
+<main>
+    <div class="dashboard-header">
+        <h1 class="header-text">Dashboard</h1>
 
-{% if user.collab_groups.all %}
+        {% if user.collab_groups.all %}
 
-{% for group in user.collab_groups.all %}
-<div>
-    <h3 class="header-text">{{group.name}}</h3>
-    <a href="{% url 'meal_calendar' group.id %}">Meal plan</a>
-    <a href="{% url 'group_detail' group.id %}">Group Details</a>
-</div>
-{% endfor %}
+        <div>
+            <a class="links" href="{% url 'group_index' %}">Manage Groups</a>
+            |
+            <a class="links" href="{% url 'user_update' user.id %}">Edit Profile</a>
+        </div>
+    
+    </div>
 
-{% else %}
-<h2>You are not a member of a group</h2>
-<h3>Join an existing group</h3>
-<h4>Type in your group's code</h4>
-<form method="post">
-    {% csrf_token %}
-    {{ form.as_p }}
-    <button type="submit">Add Group</button>
-</form>
-<h4>or</h4>
-<h4><a href="{% url 'group_create' %}">Create a new group</a></h4>
+    <div class="dashboard-groups">
+        {% for group in user.collab_groups.all %}
+        <div class="group">
+            <h3>{{group.name}}</h3>
+            <a class="links" href="{% url 'meal_calendar' group.id %}">Meal plan</a>
+            <a class="links" href="{% url 'group_detail' group.id %}">Group Details</a>
+        </div>
+        {% endfor %}
+    </div>
 
-{% endif %}
+    {% else %}
+    <h2>You are not a member of a group</h2>
+    <h3>Join an existing group</h3>
+    <h4>Type in your group's code</h4>
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Add Group</button>
+    </form>
+    <h4>or</h4>
+    <h4><a class="links" href="{% url 'group_create' %}">Create a new group</a></h4>
 
-<a href="{% url 'group_index' %}">Manage Groups</a>
-<a href="{% url 'user_update' user.id %}">Edit Profile</a>
-<a href="{% url 'user-logout' %}">Logout</a>
+    {% endif %}
+
+
+
+</main>
+
 {% endblock %}

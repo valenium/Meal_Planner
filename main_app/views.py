@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect, get_object_or_404
 
 from django.http import HttpResponseRedirect
 
-from . forms import CreateUserForm, LoginForm, MealForm, AddMemberForm, AddGroupForm
+from . forms import CreateUserForm, LoginForm, MealForm, AddMemberForm, AddGroupForm, RemoveGroupForm, GroupUpdateForm
 from django.contrib.auth import authenticate, login as auth_login, logout
 from django.contrib.auth.decorators import login_required
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
@@ -11,7 +11,6 @@ from django.forms.widgets import HiddenInput
 from django.urls import reverse_lazy
 
 
-import calendar
 from datetime import datetime, timedelta
 from collections import defaultdict
 
@@ -83,24 +82,51 @@ def dashboard(request):
 # group index
 def groups_index(request):
     user = request.user
+    add_form = AddGroupForm()
+    remove_form = RemoveGroupForm()
 
     if request.method == 'POST':
-        form = AddGroupForm(request.POST)
-        if form.is_valid():
-            group_id = form.cleaned_data['group_id']
-            try:
-                group = CollabGroup.objects.get(id=group_id)
-                user.collab_groups.add(group)
-                group.members.add(user)
+        if 'add' in request.POST.get('action',''):
+            add_form = AddGroupForm(request.POST)
+            remove_form = RemoveGroupForm()
+            if add_form.is_valid():
+                group_id = add_form.cleaned_data['group_id']
+                try:
+                    group = CollabGroup.objects.get(id=group_id)
+                    user.collab_groups.add(group)
+                    group.members.add(user)
 
-                return redirect('/dashboard')
+                    return redirect('/dashboard')
             
-            except CollabGroup.DoesNotExist:
-                form.add_error('group_id', 'This group does not exist.')
-    else:
-        form = AddGroupForm()
+                except CollabGroup.DoesNotExist:
+                    add_form.add_error('group_id', 'This group does not exist.')
+        
+    
+        elif 'remove' in request.POST.get('action',''):
+            remove_form = RemoveGroupForm(request.POST)
+            add_form = AddGroupForm()
+            if remove_form.is_valid():
+                groups = remove_form.cleaned_data['groups']
+                for group in groups:
+                    user.collab_groups.remove(group)
+                return redirect('/groups')
+        
+        else:
+            add_form = AddGroupForm()
+            remove_form = RemoveGroupForm()
 
-    return render(request, 'group/index.html', { 'user': user, 'form': form })
+    return render(request, 'group/index.html', { 'user': user, 'add_form': add_form, 'remove_form': remove_form })
+
+def group_leave(request, group_id):
+    user = request.user
+
+    if request.method == 'POST':
+        try:
+            group = CollabGroup.objects.get(id=group_id)
+            user.collab_groups.remove(group)
+        except CollabGroup.DoesNotExist:
+            pass
+    return redirect('group_index')
 
 # group detail
 def groups_detail(request, collabgroup_id):
@@ -222,7 +248,30 @@ class GroupDelete(DeleteView):
 # Group update
 class GroupUpdate(UpdateView):
     model = CollabGroup
-    fields = ['name', 'members']
+    form_class = GroupUpdateForm
+    template_name = 'main_app/collabgroup_update.html'
+    success_url = reverse_lazy('group_detail') 
+
+    def post(self, request, *args, **kwargs):
+        self.object = self.get_object()
+        form = self.get_form()
+
+        if 'remove_user' in request.POST:
+            user_id = request.POST.get('remove_user')
+            user = get_object_or_404(CustomUser, id=user_id)
+            self.object.members.remove(user)
+            return self.form_valid(form)
+        
+        else:
+            if form.is_valid():
+                return self.form_valid(form)
+            else:
+                return self.form_invalid(form)
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['members'] = self.object.members.all()
+        return context
 
 # Recipe edit
 class RecipeUpdate(UpdateView):
