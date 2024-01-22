@@ -460,6 +460,13 @@ main {
   font-size: 24px;
 }
 
+.homepage-links {
+  color: black;
+  font-size: 36px;
+  text-decoration: none;
+  font-weight: 600;
+}
+
 .dashboard-groups {
   display: flex;
   justify-content: space-evenly;
