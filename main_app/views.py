@@ -163,25 +163,18 @@ def meal_calendar(request, collabgroup_id, year=datetime.now().year, week=None):
         week = datetime.now().isocalendar()[1]
         year = datetime.now().isocalendar()[0]
 
-    collab_group = get_object_or_404(CollabGroup, pk=collabgroup_id)
+    collab_group = CollabGroup.objects.get(id=collabgroup_id)
 
     week = int(week)
     year = int(year)
     first_day_of_week = datetime.strptime(f'{year}-W{week}-1', "%Y-W%W-%w").date()
     last_day_of_week = first_day_of_week + timedelta(days=6)
-    print(f'week {week}')
-    print(datetime.now().isocalendar())
-    print(f'first day of week {first_day_of_week} ')
 
     prev_week = first_day_of_week - timedelta(weeks=1)
     next_week = first_day_of_week + timedelta(days=7)
 
-    print(f'next week {next_week} {next_week.year}')
-    print(f'prev week {prev_week} {prev_week.year}')
-
     meals_for_week = Meal.objects.filter(
         date__range=[first_day_of_week, last_day_of_week],
-        # collab_group=collab_group
         recipe__collab_group=collab_group,
     ).select_related('recipe').order_by('date', 'type')
 
@@ -192,13 +185,20 @@ def meal_calendar(request, collabgroup_id, year=datetime.now().year, week=None):
 
     week_days = [first_day_of_week + timedelta(days=i) for i in range(7)]
 
-    # New meal form
-    form = MealForm()
+    print(Recipes.objects.filter(collab_group__id=collabgroup_id).query)
 
+    form = MealForm(collabgroup_id=collabgroup_id)
+    # New meal form
     if request.method == "POST":
-        form = MealForm(request.POST)
-        form.save()
-        return HttpResponseRedirect(request.path_info)
+        form = MealForm(request.POST, collabgroup_id=collabgroup_id)
+        if form.is_valid():
+            meal = form.save(commit=False)
+            meal.collab_group = collab_group
+            meal.save()
+            return HttpResponseRedirect(request.path_info)
+        else:
+            form = MealForm(collabgroup_id=collabgroup_id)
+            
 
     context = {
         'collab_group': collab_group,
@@ -212,7 +212,6 @@ def meal_calendar(request, collabgroup_id, year=datetime.now().year, week=None):
         'next_year': next_week.year,
         'meal_form': form
     }
-    print(f'{next_week} {next_week.year}')
     return render(request, 'group/meal/index.html', context)
 
 # User edit
