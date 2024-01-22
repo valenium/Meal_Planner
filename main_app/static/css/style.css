@@ -339,3 +339,7 @@ main {
   display: flex;
   justify-content: space-between;
 }
+
+.add-group-form > .btn {
+  height: 30px;
+}
