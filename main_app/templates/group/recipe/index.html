@@ -6,14 +6,15 @@
 
     <h1>{{collab_group.name}}'s Recipes</h1>
 
+    <a class="links" href="{% url 'recipes_create' collab_group.id %}">Add a new recipe</a>
+    |
+    <a class="links" href="{% url 'group_detail' collab_group.id %}">Group details</a>
+
     <ul>
         {% for recipe in recipes %}
         <li><a class="links" href="{% url 'recipes_detail' collabgroup_id=collab_group.id recipe_id=recipe.id %}">{{recipe.title}}</a></li>
         {% endfor %}
     </ul>
-
-    <a class="links" href="{% url 'recipes_create' collab_group.id %}">Add a new recipe</a>
-    <a class="links" href="{% url 'group_detail' collab_group.id %}">Back to group details</a>
 
 </main>
 
