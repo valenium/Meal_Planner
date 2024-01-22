@@ -1,11 +1,16 @@
 {% extends 'base.html' %}
 
-<main>
+
 
     {% block content %}
     {% load custom_tags %}
+<main>
     <a class="links" href="{% url 'recipes_index' collabgroup_id %}">All Recipes</a>
-    <a class="links" href="{% url 'meal_calendar' collabgroup_id %}">Meal Plan</a>
+    |
+    <a class="links" href="{% url 'recipes_update' collabgroup_id recipe.id %}">Edit recipe</a>
+    |
+    <a class="links" href="{% url 'recipes_delete' collabgroup_id recipe.id %}">Delete recipe</a>
+    
     <h1>{{recipe.title}}</h1>
 
     {% if recipe.url %}
@@ -22,9 +27,6 @@
     <ol>
         <li>{{recipe.instructions|ingredient_linebreaks}}</li>
     </ol>
-
-    <a class="links" href="{% url 'recipes_update' collabgroup_id recipe.id %}">Edit recipe</a>
-    <a class="links" href="{% url 'recipes_delete' collabgroup_id recipe.id %}">Delete recipe</a>
 
 </main>
 
