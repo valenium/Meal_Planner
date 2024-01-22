@@ -338,8 +338,10 @@ main {
 .add-group-form {
   display: flex;
   justify-content: space-between;
+  width: 320px
 }
 
 .add-group-form > .btn {
   height: 30px;
+  margin: auto;
 }
