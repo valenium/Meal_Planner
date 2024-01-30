@@ -22,7 +22,16 @@ Calendar - Recipe schedules
 [Deployment](https://mealplanner-deploy-69aff832caa7.herokuapp.com/)
 [Trello Board](https://trello.com/b/uFYfYMrn/sei-project-4-meal-planner)
 
+# Current Features
+- Login/Register
+- Join an existing group or create a new group
+- Plan meals in a calendar - create, update, delete meals
+- Create, update, and delete recipes for your group
+- Update, and delete your groups, or leave them
+- Update and delete profile
+
 # Next Steps
-1. Implement a web scraper that will automatically provide the recipe details from a recipe link
-2. Integrate Google Calendar
-3. Create a shopping list from ingredients needed
+1. Change password
+2. Implement a web scraper that will automatically provide the recipe details from a recipe link
+3. Integrate Google Calendar
+4. Create a shopping list from ingredients needed
