@@ -299,6 +299,12 @@ class MealUpdate(UpdateView):
     model = Meal
     fields = ['recipe']
 
+    def get_form(self, form_class=None):
+        form = super(MealUpdate, self).get_form(form_class)
+        meal = self.get_object()
+        form.fields['recipe'].queryset = Recipes.objects.filter(collab_group=meal.collab_group)
+        return form
+
 class MealDelete(DeleteView):
     model = Meal
 
